@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -152,7 +153,7 @@ class InputMode extends HookWidget {
       ),
       const Spacer(),
       SizedBox(
-          width: _size.width - 60,
+          width: Platform.isAndroid ? _size.width - 60 : _size.width / 2,
           child: TextField(
               autofocus: true,
               onChanged: (String val) => newItem.value = val,
@@ -163,7 +164,7 @@ class InputMode extends HookWidget {
                   contentPadding: EdgeInsets.all(20)))),
       const SizedBox(height: 20),
       SizedBox(
-          width: _size.width - 160,
+          width: Platform.isAndroid ? _size.width - 160 : _size.width / 4,
           child: DropdownButtonFormField(
               decoration: const InputDecoration(
                   border: OutlineInputBorder(),

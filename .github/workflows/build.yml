@@ -6,8 +6,9 @@ on:
       - v*
 
 jobs:
-  build:
-    name: Build Android
+  Build_Android:
+    if: "!contains(github.event.head_commit.message, 'skip-android')"
+    name: Build APK
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +18,6 @@ jobs:
         with:
           distribution: "zulu"
           java-version: "12.x"
-          cache: "gradle"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v1
@@ -34,4 +34,46 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/outputs/flutter-apk/*.apk"
+          replacesArtifacts: false
+          token: ${{ secrets.TOKEN }}
+
+  Build_Windows:
+    if: "!contains(github.event.head_commit.message, 'skip-windows')"
+    name: Building zip
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "zulu"
+          java-version: "12.x"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+
+      - name: Get Packages
+        run: flutter pub get
+
+      - name: Enable windows build
+        run: flutter config --enable-windows-desktop
+
+      - name: Build Artifacts
+        run: flutter build windows --release
+
+      - name: Archive Artifacts
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: MaphiaGame-${{github.ref_name}}-windows.zip
+          directory: build/windows/runner/Release
+
+      - name: Create Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/windows/runner/Release/MaphiaGame-${{github.ref_name}}-windows.zip"
+          replacesArtifacts: false
           token: ${{ secrets.TOKEN }}
