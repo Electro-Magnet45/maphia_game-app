@@ -134,7 +134,8 @@ class InputMode extends HookWidget {
       const SizedBox(height: 20),
       Row(children: <TextButton>[
         TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () =>
+                Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false),
             child: const Text('Go Back'))
       ]),
       GestureDetector(
