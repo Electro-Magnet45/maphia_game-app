@@ -4,57 +4,48 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Game2 extends HookWidget {
-  const Game2({Key? key}) : super(key: key);
+  const Game2(this.socket, {Key? key}) : super(key: key);
+  final ValueNotifier<IO.Socket> socket;
 
   @override
   Scaffold build(BuildContext context) {
-    final ValueNotifier<IO.Socket> socket = useState(IO.io(
-        'https://maphiagame-apps.electro-magnet45.repl.co',
-        IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
-            {'key': 'ad@h&120p78u9'}).build()));
-    final ValueNotifier<bool> socketReady = useState<bool>(false);
-    final ValueNotifier<String> mode = useState<String>('inputMode');
-    final ValueNotifier<Map> randItem = useState({'name': 'loading&*'});
-    final ValueNotifier<List<bool>> disButton =
+    final ValueNotifier<String> mode2 = useState<String>('inputMode');
+    final ValueNotifier<Map> randItem2 = useState({'name': 'loading&*'});
+    final ValueNotifier<List<bool>> disButton2 =
         useState<List<bool>>([false, false]);
 
     void connectToServer() {
-      try {
-        socketReady.value = true;
-        socket.value.on('randomItem', (e) {
-          disButton.value[1] = false;
-          randItem.value = e;
-        });
-        socket.value.on("gameEnd", (_) {
-          mode.value = 'inputMode';
-          disButton.value = <bool>[false, false];
-          randItem.value = {'name': 'loading&*'};
-        });
-      } catch (e) {
-        debugPrint(e.toString());
-      }
+      socket.value.on('randomItem2', (e) {
+        disButton2.value[1] = false;
+        randItem2.value = e;
+      });
+      socket.value.on("gameEnd2", (_) {
+        mode2.value = 'inputMode';
+        disButton2.value = <bool>[false, false];
+        randItem2.value = {'name': 'loading&*'};
+      });
     }
 
     void handleClear() => socket.value.emit('clearItems');
 
     void handlePlay(int index) {
-      disButton.value[index] = true;
+      disButton2.value[index] = true;
       socket.value.emit('playGame2');
     }
 
     useEffect(() {
       connectToServer();
-      return () => socket.value.dispose();
+      return () {};
     }, []);
 
     return Scaffold(
         body: Center(
-            child: mode.value == 'inputMode'
+            child: mode2.value == 'inputMode'
                 ? InputMode(
-                    socket: socket.value, mode: mode, handleClear: handleClear)
+                    socket: socket.value, mode: mode2, handleClear: handleClear)
                 : GameMode(
-                    randItem: randItem,
-                    disButton: disButton,
+                    randItem: randItem2,
+                    disButton: disButton2,
                     handlePlay: (int index) => handlePlay(index))));
   }
 }
