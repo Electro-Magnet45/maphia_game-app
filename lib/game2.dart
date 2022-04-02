@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
-class Home extends HookWidget {
-  const Home({Key? key}) : super(key: key);
+class Game2 extends HookWidget {
+  const Game2({Key? key}) : super(key: key);
 
   @override
   Scaffold build(BuildContext context) {
@@ -43,7 +43,7 @@ class Home extends HookWidget {
 
     void handlePlay(int index) {
       disButton.value[index] = true;
-      socket.value.emit('playGame');
+      socket.value.emit('playGame2');
     }
 
     useEffect(() {
@@ -130,13 +130,13 @@ class InputMode extends HookWidget {
 
     return Column(children: <Widget>[
       SizedBox(height: MediaQuery.of(context).padding.top + 20),
-      Row(children: <Widget>[
-        const Spacer(),
-        TextButton(
-            onPressed: () => Navigator.pushNamed(context, '/game2'),
-            child: const Text('Game 2'))
-      ]),
+      const Text("Game 2", style: TextStyle(fontSize: 22)),
       const SizedBox(height: 20),
+      Row(children: <TextButton>[
+        TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Go Back'))
+      ]),
       GestureDetector(
         onLongPress: handleClear,
         child: Container(

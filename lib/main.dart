@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maphia_game/game2.dart';
 import 'package:maphia_game/home.dart';
 
 void main() => runApp(const MyApp());
@@ -12,6 +13,10 @@ class MyApp extends StatelessWidget {
         title: 'Maphia Game',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: const Home());
+        initialRoute: '/',
+        routes: {
+          '/': (BuildContext context) => const Home(),
+          '/game2': (BuildContext context) => const Game2()
+        });
   }
 }
