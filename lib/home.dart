@@ -9,7 +9,7 @@ class Home extends HookWidget {
   @override
   Scaffold build(BuildContext context) {
     final ValueNotifier<IO.Socket> socket = useState(IO.io(
-        'https://maphiagame-app.electro-magnet45.repl.co',
+        'https://maphiagame-apps.electro-magnet45.repl.co',
         IO.OptionBuilder()
             .setTransports(['websocket'])
             .setExtraHeaders({'key': 'ad@h&120p78u9'})
