@@ -44,7 +44,6 @@ class Home extends HookWidget {
     }
 
     useEffect(() {
-      print('sdfsdf');
       connectToServer();
       return () => socket.value.dispose();
     }, []);

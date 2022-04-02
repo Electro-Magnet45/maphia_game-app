@@ -10,11 +10,8 @@ class Game2 extends HookWidget {
   Scaffold build(BuildContext context) {
     final ValueNotifier<IO.Socket> socket = useState(IO.io(
         'https://maphiagame-apps.electro-magnet45.repl.co',
-        IO.OptionBuilder()
-            .setTransports(['websocket'])
-            .setExtraHeaders({'key': 'ad@h&120p78u9'})
-            .disableAutoConnect()
-            .build()));
+        IO.OptionBuilder().setTransports(['websocket']).setExtraHeaders(
+            {'key': 'ad@h&120p78u9'}).build()));
     final ValueNotifier<bool> socketReady = useState<bool>(false);
     final ValueNotifier<String> mode = useState<String>('inputMode');
     final ValueNotifier<Map> randItem = useState({'name': 'loading&*'});
@@ -23,7 +20,6 @@ class Game2 extends HookWidget {
 
     void connectToServer() {
       try {
-        socket.value.connect();
         socketReady.value = true;
         socket.value.on('randomItem', (e) {
           disButton.value[1] = false;
@@ -49,7 +45,7 @@ class Game2 extends HookWidget {
     useEffect(() {
       connectToServer();
       return () => socket.value.dispose();
-    }, [socket]);
+    }, []);
 
     return Scaffold(
         body: Center(
