@@ -36,6 +36,7 @@ jobs:
           artifacts: "build/app/outputs/flutter-apk/*.apk"
           replacesArtifacts: false
           token: ${{ secrets.TOKEN }}
+          allowUpdates: true
 
   Build_Windows:
     if: "!contains(github.event.head_commit.message, 'skip-windows')"
@@ -77,3 +78,4 @@ jobs:
           artifacts: "build/windows/runner/Release/MaphiaGame-${{github.ref_name}}-windows.zip"
           replacesArtifacts: false
           token: ${{ secrets.TOKEN }}
+          allowUpdates: true
